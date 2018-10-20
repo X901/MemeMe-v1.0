@@ -35,11 +35,11 @@ class HomeViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setTextAttributes()
+        setTextAttributes(textfield: topTextfield)
+        setTextAttributes(textfield: bottomTextfield)
+
         defualtText()
         
-        topTextfield.delegate = self
-        bottomTextfield.delegate = self
         
         shareButton.isEnabled = false
 
@@ -59,22 +59,26 @@ subscribeToKeyboardNotifications()
     
     //Mark: pick Image from Album
     @IBAction func pickAnImageFromAlbum(_ sender: Any) {
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = .photoLibrary
-        present(pickerController, animated: true, completion: nil)
+        choosePickerTypr(type: .photoLibrary)
     }
     
     //Mark: pick Image from Camera
     @IBAction func pickAnImageFromCamera(_ sender: Any) {
         
-        let pickerController = UIImagePickerController()
-        pickerController.delegate = self
-        pickerController.sourceType = .camera
-        present(pickerController, animated: true, completion: nil)
+        choosePickerTypr(type: .camera)
     }
     
-    func setTextAttributes(){
+    func choosePickerTypr(type :UIImagePickerController.SourceType){
+        let pickerController = UIImagePickerController()
+        pickerController.delegate = self
+        pickerController.sourceType = type
+        present(pickerController, animated: true, completion: nil)
+
+    }
+    
+    func setTextAttributes(textfield: UITextField){
+        
+        textfield.delegate = self
         
         let memeTextAttributes:[NSAttributedString.Key: Any] = [
             NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): UIColor.white,
@@ -82,11 +86,9 @@ subscribeToKeyboardNotifications()
             NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
             NSAttributedString.Key(rawValue: NSAttributedString.Key.strokeWidth.rawValue): -4]
         
-        topTextfield.defaultTextAttributes = memeTextAttributes
-        bottomTextfield.defaultTextAttributes = memeTextAttributes
+        textfield.defaultTextAttributes = memeTextAttributes
         
-        topTextfield.textAlignment = .center
-        bottomTextfield.textAlignment = .center
+        textfield.textAlignment = .center
     }
     
     func defualtText(){
