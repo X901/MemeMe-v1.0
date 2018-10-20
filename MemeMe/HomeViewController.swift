@@ -129,11 +129,23 @@ bottomToolbar.isHidden = true
     }
 
     @IBAction func shareButtonClicked(_ sender: UIButton) {
-        let meme = save()
+        let meme = generateMemedImage()
         
         
-         let controller = UIActivityViewController(activityItems: [meme.memedImage], applicationActivities: nil)
+         let controller = UIActivityViewController(activityItems: [meme], applicationActivities: nil)
         
+        controller.completionWithItemsHandler = {(activityType: UIActivity.ActivityType?, completed: Bool, returnedItems: [Any]?, error: Error?) in
+            if !completed {
+                // User canceled
+                print("user canceled ")
+                return
+            }
+            // User completed activity
+            print("User completed activity")
+
+           _ = self.save()
+            
+        }
                 present(controller, animated: true, completion: nil)
 
     }
@@ -142,6 +154,7 @@ bottomToolbar.isHidden = true
     
     @IBAction func cancelClicked(_ sender: UIButton) {
         imagePickerView.image = nil
+        shareButton.isEnabled = false
         defualtText()
     }
     
