@@ -138,6 +138,13 @@ bottomToolbar.isHidden = true
 
     }
     
+    //Mark: Rest All
+    
+    @IBAction func cancelClicked(_ sender: UIButton) {
+        imagePickerView.image = nil
+        defualtText()
+    }
+    
     
     //Mark: Move view UP or Down when show/hide keyboard
 
