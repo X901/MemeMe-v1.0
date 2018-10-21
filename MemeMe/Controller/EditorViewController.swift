@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  EditorViewController.swift
 //  MemeMe
 //
 //  Created by X901 on 19/10/2018.
@@ -8,15 +8,8 @@
 
 import UIKit
 
-struct Meme{
-   
-    var topText:String?
-    var bottomText:String?
-    var originalImage:UIImage
-    var memedImage:UIImage
 
-}
-class HomeViewController: UIViewController  {
+class EditorViewController: UIViewController  {
     
     @IBOutlet weak var imagePickerView: UIImageView!
     
@@ -106,6 +99,9 @@ subscribeToKeyboardNotifications()
         let memedImage = generateMemedImage()
         let meme = Meme(topText: topTextfield.text!, bottomText: bottomTextfield.text!, originalImage: imagePickerView.image!, memedImage: memedImage)
         
+        //Add it to the memes array on the Application Delegate
+        (UIApplication.shared.delegate as! AppDelegate).memes.append(meme)
+        
         return meme
     }
     
@@ -147,8 +143,11 @@ bottomToolbar.isHidden = true
 
            _ = self.save()
             
+            self.dismiss(animated: true, completion: nil)
+            
+            
         }
-                present(controller, animated: true, completion: nil)
+              present(controller, animated: true, completion: nil)
 
     }
     
@@ -197,7 +196,7 @@ bottomToolbar.isHidden = true
     }
 }
 
-extension HomeViewController : UIImagePickerControllerDelegate , UINavigationControllerDelegate{
+extension EditorViewController : UIImagePickerControllerDelegate , UINavigationControllerDelegate{
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
@@ -214,7 +213,7 @@ extension HomeViewController : UIImagePickerControllerDelegate , UINavigationCon
     }
 }
 
-extension HomeViewController : UITextFieldDelegate {
+extension EditorViewController : UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if topTextfield.text == "TOP"{
