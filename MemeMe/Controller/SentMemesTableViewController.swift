@@ -18,14 +18,9 @@ class SentMemesTableViewController: UIViewController {
         return appDelegate.memes
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
     
-
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         tableViewMemes.reloadData()
     }
     

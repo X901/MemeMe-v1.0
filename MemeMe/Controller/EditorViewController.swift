@@ -46,6 +46,7 @@ subscribeToKeyboardNotifications()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         unsubscribeToKeyboardNotifications()
 
     }
@@ -108,8 +109,7 @@ subscribeToKeyboardNotifications()
     func generateMemedImage() -> UIImage {
         
         // TODO: Hide toolbar
-topToolbar.isHidden = true
-bottomToolbar.isHidden = true
+showOrHideTopAndBottomToolbar(isHidden:true)
 
         // Render view to an image
         UIGraphicsBeginImageContext(self.view.frame.size)
@@ -118,12 +118,24 @@ bottomToolbar.isHidden = true
         UIGraphicsEndImageContext()
         
         // TODO: Show toolbar 
-        topToolbar.isHidden = false
-        bottomToolbar.isHidden = false
-        shareButton.isEnabled = true
+        showOrHideTopAndBottomToolbar(isHidden:false)
+
 
         
         return memedImage
+    }
+    
+    func showOrHideTopAndBottomToolbar(isHidden:Bool){
+        
+        if isHidden == true {
+            topToolbar.isHidden = true
+            bottomToolbar.isHidden = true
+        }else {
+            topToolbar.isHidden = false
+            bottomToolbar.isHidden = false
+            shareButton.isEnabled = true
+        }
+        
     }
 
     @IBAction func shareButtonClicked(_ sender: UIButton) {
@@ -154,9 +166,8 @@ bottomToolbar.isHidden = true
     //Mark: Rest All
     
     @IBAction func cancelClicked(_ sender: UIButton) {
-        imagePickerView.image = nil
-        shareButton.isEnabled = false
-        defualtText()
+        
+        dismiss(animated: true, completion: nil)
     }
     
     
